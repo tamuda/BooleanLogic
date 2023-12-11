@@ -221,7 +221,7 @@ static void And3Gate_dump(Gate this) {
 /**
  * Return a new 3-input AND Gate.
  */
-Gate new_And3Gate() {
+Gate new_And3Gate(void) {
     Gate this = new_Gate();
     this->numInputs = 3;
     this->inputs = new_Boolean_array(this->numInputs);
@@ -269,4 +269,54 @@ Gate new_Or4Gate() {
     this->dump = Or4Gate_dump;
     return this;
 }
+
+//
+// NorGate
+//
+
+static void NorGate_update(Gate this) {
+    //output is true only if both inputs are false
+    Boolean_setValue(this->output, !(Boolean_getValue(this->inputs[0]) || Boolean_getValue(this->inputs[1])));
+}
+
+static void NorGate_dump(Gate this) {
+    BinaryGate_dump(this, "NOR");
+}
+
+/**
+ * Return a new binary NOR Gate.
+ */
+Gate new_NorGate(void) {
+    Gate this = new_BinaryGate();
+    this->inputs[0] = new_Boolean(false);
+    this->inputs[1] = new_Boolean(false);
+    this->update = NorGate_update;
+    this->dump = NorGate_dump;
+    return this;
+}
+
+//
+// NotGate
+//
+
+static void NotGate_update(Gate this) {
+   
+    Boolean_setValue(this->output, !Boolean_getValue(this->inputs[0]));
+}
+
+static void NotGate_dump(Gate this) {
+    UnaryGate_dump(this, "NOT");
+}
+
+/**
+ * Return a new unary NOT Gate.
+ */
+Gate new_NotGate(void) {
+    Gate this = new_UnaryGate();
+    this->inputs[0] = new_Boolean(false);
+    this->update = NotGate_update;
+    this->dump = NotGate_dump;
+    return this;
+}
+
 

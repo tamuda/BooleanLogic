@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "Circuit.h"
+typedef Circuit (*CircuitFunction)();
 
 static Circuit and3_Circuit() {
 
@@ -251,81 +252,7 @@ static void testCircuitC(Circuit circuit, bool in0, bool in1, bool in2) {
            Boolean_toString(Circuit_getOutput(circuit, 0)));
 }
 
-int main(int argc, char **argv) {
-    // Circuit circuit = and3_Circuit();
-    // Circuit_dump(circuit);
-    // printf("\n");
-    // printf("Testing: Some input(s) false: should be false\n");
-    // test3In1Out(circuit, true, true, false);
-    // printf("Testing: All inputs true: should be true\n");
-    // test3In1Out(circuit, true, true, true);
-    // printf("\nNote: Your program needs a function that tests ANY circuit on ALL possible\ncombinations of input values, in order from all false to all true, per the\nproject description.\n");
-    // free_Circuit(circuit);
-
-    char circuitName[10];
-    printf("Enter the name of the circuit you want to test: ");
-    scanf("%s", circuitName);
-
-    Circuit circuitInstance;
-
-    if (strcmp(circuitName, "circuitA") == 0) {
-        circuitInstance = circuitA();
-    } else if (strcmp(circuitName, "circuitB") == 0) {
-        circuitInstance = circuitB();
-    } else if (strcmp(circuitName, "circuitC") == 0) {
-        circuitInstance = circuitC();
-    } else {
-        printf("Invalid circuit name\n");
-        return 1;
-    }
-
-    free_Circuit(circuitInstance);
-    return 0;
-
-    // Circuit circuit = circuitA();
-    // Circuit_dump(circuit);
-    // // Testing the circuit(a) with different inputs
-    // printf("\nTesting Circuit A\n");
-    // testCircuitA(circuit, false, false);
-    // testCircuitA(circuit, false, true);
-    // testCircuitA(circuit, true, false);
-    // testCircuitA(circuit, true, true);
-
-    // // Freeing the circuit
-    // free_Circuit(circuit);
-
-    // circuit = circuitB();
-    // Circuit_dump(circuit);
-
-    // // Testing the circuit with different inputs
-    // printf("\nTesting Circuit B\n");
-    // testCircuitB(circuit, false, false);
-    // testCircuitB(circuit, false, true);
-    // testCircuitB(circuit, true, false);
-    // testCircuitB(circuit, true, true);
-
-    // // Freeing the circuit
-    // free_Circuit(circuit);
-
-    //  circuit = circuitC();
-    // Circuit_dump(circuit);
-
-    // // Testing the circuit with different inputs
-    // printf("\nTesting Circuit C\n");
-    // testCircuitC(circuit, false, false, false);
-    // testCircuitC(circuit, false, false, true);
-    // testCircuitC(circuit, false, true, false);
-    // testCircuitC(circuit, false, true, true);
-    // testCircuitC(circuit, true, false, false);
-    // testCircuitC(circuit, true, false, true);
-    // testCircuitC(circuit, true, true, false);
-    // testCircuitC(circuit, true, true, true);
-    // // Freeing the circuit
-    // free_Circuit(circuit);
-    
-}
-
-    //create a general function that takes the name of a function and prints out all possible test cases for that function
+ //general function that takes the name of a function and prints out all possible test cases for that function
     static void testAnyCircuit(CircuitFunction circuitFunction, const char* circuitName, int numInputs) {
         Circuit circuit = circuitFunction();
         Circuit_dump(circuit);
@@ -344,7 +271,34 @@ int main(int argc, char **argv) {
             Circuit_update(circuit);
             printf("-> Result: %s\n", Boolean_toString(Circuit_getOutput(circuit, 0)));
         }
+        
 
         free_Circuit(circuit);
     }
     //create a function that takes a circuit and prints out all possible test cases for that circuit
+
+
+int main(int argc, char **argv) {
+ 
+    char circuitName[10];
+    printf("Enter the name of the circuit you want to test: ");
+    scanf("%s", circuitName);
+
+    Circuit circuitInstance;
+
+   if (strcmp(circuitName, "circuitA") == 0) {
+        testAnyCircuit(circuitA, "Circuit A", 2);
+    } else if (strcmp(circuitName, "circuitB") == 0) {
+        testAnyCircuit(circuitB, "Circuit B", 2);
+    } else if (strcmp(circuitName, "circuitC") == 0) {
+        testAnyCircuit(circuitC, "Circuit C", 3);
+    } else {
+        printf("Invalid circuit name\n");
+        return 1;
+    }
+    free_Circuit(circuitInstance);
+    return 0;
+
+}
+
+   
