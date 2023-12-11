@@ -15,6 +15,11 @@
 typedef struct Circuit* Circuit;
 
 /**
+ * CircuitFunction is a function that returns a Circuit.
+ */
+typedef Circuit (*CircuitFunction)();
+
+/**
  * Allocate and return a new Circuit with the given title, inputs, outputs,
  * and gates.
  */

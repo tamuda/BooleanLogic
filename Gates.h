@@ -83,4 +83,14 @@ extern Gate new_And3Gate();
  */
 extern Gate new_Or4Gate();
 
+/**
+ * Return a new binary NOT Gate.
+ */
+extern Gate new_NotGate();
+
+/**
+ * Return a new binary NOR Gate.
+ */
+extern Gate new_NorGate();
+
 #endif /* GATES_H_ */
