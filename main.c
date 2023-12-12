@@ -276,16 +276,16 @@ static void testCircuitC(Circuit circuit, bool in0, bool in1, bool in2) {
         free_Circuit(circuit);
     }
 
-    // Function for circuit F using minterms
+    // Function for circuit F using minterms (EXTRA CREDIT)
     bool circuitF(bool a, bool b, bool c) {
         // Using minterms: F = Σ(1, 2, 3, 7)
         return (!a && !b && c) || (!a && b && !c) || (!a && b && c) || (a && b && c);
     }
 
-// Function for circuit G using corrected truth table
-bool circuitG(bool a, bool b, bool c) {
-    return (a && !b && !c) || (!a && b && !c) || (a && b && c) || (!a && !b && c);
-}
+    // Function for circuit G using minterms (EXTRA CREDIT)
+    bool circuitG(bool a, bool b, bool c) {
+        return (a && !b && !c) || (!a && b && !c) || (a && b && c) || (!a && !b && c);
+    }
 
     // Function to get results of circuits f and g (EXTRA CREDIT)
     void getCircuitResults(const char* circuitName, bool a, bool b, bool c) {
@@ -294,10 +294,10 @@ bool circuitG(bool a, bool b, bool c) {
     printf("Input 1: %d\n", b);
     printf("Input 2: %d\n", c);
     printf("-> Result: %d\n", circuitF(a, b, c));
-    printf("---------\n");
+    printf("\n");
 }
 
-    // Function for testing circuit F
+    // Function for testing circuit F (EXTRA CREDIT)
     void testCircuitF() {
         printf("Testing Circuit F\n");
         for (int a = 0; a <= 1; ++a) {
@@ -308,10 +308,10 @@ bool circuitG(bool a, bool b, bool c) {
                 }
             }
         }
-        printf("---------\n");
+        printf("\n");
     }
 
-    // Function for testing circuit G
+    // Function for testing circuit G (EXTRA CREDIT)
     void testCircuitG() {
         printf("Testing Circuit G\n");
         for (int a = 0; a <= 1; ++a) {
@@ -355,5 +355,3 @@ bool circuitG(bool a, bool b, bool c) {
 
         return 0;
     }
-
-//should start at input 0 or at input 1? 
