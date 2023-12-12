@@ -275,7 +275,75 @@ static void testCircuitC(Circuit circuit, bool in0, bool in1, bool in2) {
 
         free_Circuit(circuit);
     }
-    //create a function that takes a circuit and prints out all possible test cases for that circuit
+
+    // Circuit(h)
+    static Circuit circuitH() {
+    char *title = "Circuit H combining f and g";
+
+    // Number of inputs, outputs, and gates
+    int NINPUTS = 3;
+    int NOUTPUTS = 1;
+    int NGATES = 9;
+
+    // Create the inputs
+    Boolean* inputs = new_Boolean_array(NINPUTS);
+    inputs[0] = new_Boolean(false); // input a
+    inputs[1] = new_Boolean(false); // input b
+    inputs[2] = new_Boolean(false); // input c
+
+    // Create the outputs
+    Boolean* outputs = new_Boolean_array(NOUTPUTS);
+    outputs[0] = new_Boolean(false); 
+
+    // Create the gates
+    Gate* gates = new_Gate_array(NGATES);
+    gates[0] = new_AndGate(); // AND gate for f's minterms
+    gates[1] = new_OrGate();  // OR gate for f's minterms
+    gates[2] = new_AndGate(); // AND gate for g's minterms
+    gates[3] = new_OrGate();  // OR gate for g's minterms
+    gates[4] = new_AndGate(); // AND gate for f and g outputs
+    gates[5] = new_OrGate();  // OR gate for final output
+
+    Circuit circuit = new_Circuit(title, NINPUTS, inputs, NOUTPUTS, outputs, NGATES, gates);
+
+    // Connect inputs to the AND gates for f and g
+    for (int i = 0; i < NINPUTS; i++) {
+        Circuit_connect(circuit, inputs[i], Gate_getInput(gates[0], i));
+        Circuit_connect(circuit, inputs[i], Gate_getInput(gates[2], i));
+    }
+
+    // Connect the AND gates to the OR gates for f and g
+    for (int i = 0; i < 2; i++) {
+        Circuit_connect(circuit, Gate_getOutput(gates[i]), Gate_getInput(gates[1], i));
+        Circuit_connect(circuit, Gate_getOutput(gates[i + 2]), Gate_getInput(gates[3], i));
+    }
+
+    // Connect the OR gates to the AND gate for the final output
+    for (int i = 0; i < 2; i++) {
+        Circuit_connect(circuit, Gate_getOutput(gates[i + 4]), Gate_getInput(gates[4], i));
+    }
+
+    // Connect the AND gate to the OR gate for the final output
+    Circuit_connect(circuit, Gate_getOutput(gates[4]), Gate_getInput(gates[5], 0));
+
+    // Connect the OR gate to the circuit output
+    Circuit_connect(circuit, Gate_getOutput(gates[5]), outputs[0]);
+
+    return circuit;
+}
+
+// Test function for the circuit
+static void testCircuitH(Circuit circuit, bool in0, bool in1, bool in2) {
+    Circuit_setInput(circuit, 0, in0);
+    Circuit_setInput(circuit, 1, in1);
+    Circuit_setInput(circuit, 2, in2);
+    Circuit_update(circuit);
+    printf("Input A: %s, Input B: %s, Input C: %s -> Result: %s\n",
+           Boolean_toString(Circuit_getInput(circuit, 0)),
+           Boolean_toString(Circuit_getInput(circuit, 1)),
+           Boolean_toString(Circuit_getInput(circuit, 2)),
+           Boolean_toString(Circuit_getOutput(circuit, 0)));
+}
 
 
 int main(int argc, char **argv) {
@@ -292,6 +360,8 @@ int main(int argc, char **argv) {
         testAnyCircuit(circuitB, "Circuit B", 2);
     } else if (strcmp(circuitName, "circuitC") == 0) {
         testAnyCircuit(circuitC, "Circuit C", 3);
+    } else if (strcmp(circuitName, "circuitH") == 0) {
+        testAnyCircuit(circuitH, "Circuit H", 3);
     } else {
         printf("Invalid circuit name\n");
         return 1;
