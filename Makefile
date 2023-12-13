@@ -9,7 +9,7 @@ OBJS = $(SRCS:.c=.o)
 EXE = boosim
 
 #CFLAGS = -std=c99 -Wall -Werror -O0 -g
-CFLAGS = -std=c99 -Wall -O0 -g -Wno-unused-function
+CFLAGS = -std=c99 -Wall -O0 -g -Wno-unused-function -Wno-unused-function
 
 $(EXE): $(OBJS)
 	$(CC) -o $@ $(OBJS)
