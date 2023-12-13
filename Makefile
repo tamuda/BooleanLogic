@@ -8,7 +8,8 @@ SRCS = Boolean.c Gates.c Circuit.c strdup.c main.c
 OBJS = $(SRCS:.c=.o)
 EXE = boosim
 
-CFLAGS = -std=c99 -pedantic -Wall -Werror -O0 -g -Wno-unused-function
+CFLAGS = -std=c99 -Wall -Werror -O0 -g -Wno-unused-function
+#CFLAGS = -std=c99 -Wall -O0 -g
 
 $(EXE): $(OBJS)
 	$(CC) -o $@ $(OBJS)
