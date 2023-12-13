@@ -7,7 +7,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "Circuit.h"
-typedef Circuit (*CircuitFunction)();
 
 static Circuit and3_Circuit() {
 
